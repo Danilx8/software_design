@@ -53,14 +53,15 @@ public class ComplexMultiThreadProcessing
 
     public static void Run()
     {
-        Random random = new Random();
-        int[] data = Enumerable.Repeat(random.Next(100), ARRAY_SIZE).ToArray();
-        int sum = data.Chunk(ARRAY_SIZE / THREADS_AMOUNT).Aggregate((first, second) =>
-        {
-            Task<int> task1 = Task.Run(first.Sum);
-            Task<int> task2 = Task.Run(second.Sum);
-            return [task1.Result, task2.Result];
-        }).Sum();
-        Console.WriteLine("Sum of all elements: " + sum);
+        Console.WriteLine("Sum of all elements: " + Enumerable
+            .Repeat(new Random().Next(100), ARRAY_SIZE)
+            .ToArray().Chunk(ARRAY_SIZE / THREADS_AMOUNT)
+            .Aggregate((first, second) =>
+            {
+                Task<int> task1 = Task.Run(first.Sum);
+                Task<int> task2 = Task.Run(second.Sum);
+                return [task1.Result, task2.Result];
+            })
+            .Sum());
     }
 }
