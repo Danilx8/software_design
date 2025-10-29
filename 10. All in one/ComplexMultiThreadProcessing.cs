@@ -55,7 +55,8 @@ public class ComplexMultiThreadProcessing
     {
         Console.WriteLine("Sum of all elements: " + Enumerable
             .Repeat(new Random().Next(100), ARRAY_SIZE)
-            .ToArray().Chunk(ARRAY_SIZE / THREADS_AMOUNT)
+            .ToArray()
+            .Chunk(ARRAY_SIZE / THREADS_AMOUNT)
             .Aggregate((first, second) =>
             {
                 Task<int> task1 = Task.Run(first.Sum);
