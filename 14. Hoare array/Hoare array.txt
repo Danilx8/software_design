@@ -1,0 +1,46 @@
+{arr.length > 0} findMax(arr) {result = max(arr)}
+
+Для удобства распишу в псевдокоде функцию findMax
+
+function findMax(arr) {
+    let maxIndex = 0;
+    for (int i = 0; i < arr.length; i += 1) {
+        if (arr[i] > arr[maxIndex]) {
+            maxIndex = i;
+        }
+    }
+    return arr[maxIndex];
+}
+
+I: 0 <= i < arr.length; maxIndex <= i; arr[i] <= arr[maxIndex].
+
+Доказательство:
+1. Инициализация
+(Принимаем начало цикла за 0) i = 0, maxIndex = 0 (не изменён): в массиве первый элемент, само собой, равен первому элементу
+
+2. Сохранение инварианта
+После итерации i = i + 1 и maxIndex или поменялся, или остался на предыдущем значении до i
+0 < i + 1 и 1 <= i + 1, значение i растёт равномерно, а maxIndex опционально следует ему или остаётся ниже, поэтому maxIndex <= i
+После первой итерациии есть два исхода: arr[i] <= arr[i - 1] или arr[i] > arr[i - 1]
+В первом случае maxIndex = i - 1 (смены индекса не произошло)
+Во втором случае maxIndex = i (произошла смена индекса)
+Проверим первое условие
+Допуская итерацию, мы уже допускаем, что длина массива > 1, поэтому 0 <= 1 <= arr.length
+Проверим второе условие:
+1) arr[i] <= arr[i - 1] & maxIndex = i - 1, поэтому arr[i] <= arr[maxIndex] ✔︎
+2) arr[i] > arr[i - 1] & maxIndex = i, поэтому arr[i] = arr[maxIndex] (arr[i] = arr[i]) ✔︎
+
+По индукции, инвариант истинен для тела цикла
+
+3. Завершение
+Цикл завершается, когда i = arr.length - 1
+В таком случае, 
+На предыдущем шаге доказано, что maxIndex не превышает i, поэтому maxIndex <= arr.length - 1, а значит maxIndex <= i ✔︎, 
+0 <= arr.length - 1 < arr.length, т.е. 1 <= arr.length < arr.length + 1 ✔︎
+и 
+arr[arr.length - 1] <= arr[maxIndex]. Этот шаг - частный случай тела цикла, рассмотренного в предыдущем шаге, где 
+инвариант был верен для i = arr.length - 2, из чего по правилу математической индукции следует, 
+что если arr[arr.length - 2] <= arr[maxIndex], где maxIndex <= i - 1, то
+arr[arr.length - 1] <= arr[maxIndex], где maxIndex <= i
+
+Инвариант цикла доказан
